@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'services/notification_service.dart';
 import 'home_page.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 1. Türkçe tarih formatlama verisini başlatıyoruz
+  await initializeDateFormatting('tr_TR', null);
+
+  // 2. Bildirim servisimizi başlatıyoruz
+  await NotificationService.init();
+
   runApp(const MyApp());
 }
 
@@ -12,17 +21,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'HatırlaAI',
-
-      locale: const Locale('tr', 'TR'),
-      supportedLocales: const [Locale('tr', 'TR')],
-      localizationsDelegates: GlobalMaterialLocalizations.delegates,
-
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-
       home: const HomePage(),
     );
   }
